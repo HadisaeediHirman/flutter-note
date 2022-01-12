@@ -37,7 +37,6 @@ extension ContextEx on BuildContext {
       backgroundColor: isError ? AppColors.error : AppColors.primary,
       messageText: Text(
         message,
-        textDirection: TextDirection.rtl,
         style: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,

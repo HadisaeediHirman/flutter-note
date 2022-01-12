@@ -38,6 +38,15 @@ class NoteController extends GetxController {
     }
   }
 
+  delete(String id) async {
+    try {
+      await _box.delete(id);
+      notes.removeWhere((element) => element.id == id);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   deleteNotes() async {
     try {
       await _box.deleteAll(selectedIds.value);

@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:simple_hive_note/views/note_detail_screen.dart';
 
 import '../constants.dart';
 import '../controllers/note_controller.dart';
@@ -33,12 +34,13 @@ class NoteScreen extends StatelessWidget {
             () => controller.selectedIds.isEmpty
                 ? ActionButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SettingScreen(),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => SettingScreen(),
+                      //   ),
+                      // );
+                      _changeLanguage(us);
                     },
                     child: const Icon(Icons.settings),
                   )
@@ -46,12 +48,12 @@ class NoteScreen extends StatelessWidget {
                     onPressed: () {
                       controller.deleteNotes();
                       context.showMessage(
-                          "${controller.selectedIds.length} یادداشت با موفقیت حذف شدند.");
+                          "${controller.selectedIds.length} ${"delete_msg".tr}");
                     },
                     child: Row(
                       children: [
                         Text(
-                          "حذف - ${controller.selectedIds.length}",
+                          "${"delete".tr} - ${controller.selectedIds.length}",
                         ),
                         const SizedBox(width: 8),
                         const Icon(Icons.delete),
@@ -95,7 +97,12 @@ class NoteScreen extends StatelessWidget {
                           onSelect: () => controller.toggleSelect(note.id),
                           onTap: () {
                             if (controller.selectedIds.isEmpty) {
-                              print("Navigate");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => NoteDetailScreen(note: note),
+                                ),
+                              );
                             } else {
                               controller.toggleSelect(note.id);
                             }

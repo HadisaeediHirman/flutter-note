@@ -15,6 +15,7 @@ class Localization extends Translations {
           'settings': "Settings",
           'change_language': "Change Language",
           'change_theme': "Change Theme",
+          "delete_msg": "Notes Deleted Successfully."
         },
         'fa_IR': {
           'note': "یادداشت",
@@ -29,6 +30,7 @@ class Localization extends Translations {
           'settings': "تنظیمات",
           'change_language': "تغییر زبان",
           'change_theme': 'تغییر نمایه',
+          "delete_msg": "یادداشت حذف شذند."
         },
       };
 }
