@@ -11,7 +11,10 @@ class Localization extends Translations {
           'save': 'Save',
           'delete': 'Delete',
           "saving": "Saving ...",
-          "empty_note": "There is no Note\n Click on \"+\" to add one."
+          "empty_note": "There is no Note\n Click on \"+\" to add one.",
+          'settings': "Settings",
+          'change_language': "Change Language",
+          'change_theme': "Change Theme",
         },
         'fa_IR': {
           'note': "یادداشت",
@@ -23,6 +26,9 @@ class Localization extends Translations {
           "saving": "در حال ذخیره ...",
           'empty_note':
               "یادداشتی وجود ندارد\n با کلیک بر روی دکمه \"+\" یکی اضافه کنید",
+          'settings': "تنظیمات",
+          'change_language': "تغییر زبان",
+          'change_theme': 'تغییر نمایه',
         },
       };
 }

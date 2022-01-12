@@ -2,14 +2,16 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:simple_hive_note/controllers/note_controller.dart';
-import 'package:simple_hive_note/theme/colors.dart';
-import 'package:simple_hive_note/views/add_update_note_screen.dart';
-import 'package:simple_hive_note/widgets/action_button.dart';
-import 'package:simple_hive_note/widgets/empty_text.dart';
-import 'package:simple_hive_note/widgets/note_appbar.dart';
-import 'package:simple_hive_note/widgets/note_card.dart';
+
 import '../constants.dart';
+import '../controllers/note_controller.dart';
+import '../theme/colors.dart';
+import '../widgets/action_button.dart';
+import '../widgets/empty_text.dart';
+import '../widgets/note_appbar.dart';
+import '../widgets/note_card.dart';
+import 'add_update_note_screen.dart';
+import 'setting_screen.dart';
 
 class NoteScreen extends StatelessWidget {
   NoteScreen({Key? key}) : super(key: key);
@@ -25,11 +27,19 @@ class NoteScreen extends StatelessWidget {
     return Scaffold(
       appBar: NoteAppbar(
         title: "notes".tr,
+        autoImplementLeading: false,
         actions: [
           Obx(
             () => controller.selectedIds.isEmpty
                 ? ActionButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SettingScreen(),
+                        ),
+                      );
+                    },
                     child: const Icon(Icons.settings),
                   )
                 : ActionButton(
@@ -52,34 +62,16 @@ class NoteScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FadeInLeft(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              heroTag: "1",
-              onPressed: () => _changeLanguage(fa),
-              child: const Text("FA"),
-            ),
-            const SizedBox(height: 10),
-            FloatingActionButton(
-              onPressed: () => _changeLanguage(us),
-              child: const Text("US"),
-            ),
-            const SizedBox(height: 10),
-            FloatingActionButton(
-              heroTag: "2",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const AddUpdateNoteScreen(),
-                  ),
-                );
-              },
-              backgroundColor: AppColors.success,
-              child: const Icon(Icons.add),
-            ),
-          ],
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const AddUpdateNoteScreen(),
+              ),
+            );
+          },
+          child: const Icon(Icons.add),
         ),
       ),
       body: Obx(
