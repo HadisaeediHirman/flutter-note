@@ -58,4 +58,8 @@ class NoteController extends GetxController {
       rethrow;
     }
   }
+
+  cancelDeleteNotes() {
+    selectedIds.clear();
+  }
 }

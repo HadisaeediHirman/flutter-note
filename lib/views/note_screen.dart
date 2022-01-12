@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:simple_hive_note/theme/spacing.dart';
 import 'package:simple_hive_note/views/note_detail_screen.dart';
 
 import '../constants.dart';
@@ -44,21 +45,30 @@ class NoteScreen extends StatelessWidget {
                     },
                     child: const Icon(Icons.settings),
                   )
-                : ActionButton(
-                    onPressed: () {
-                      controller.deleteNotes();
-                      context.showMessage(
-                          "${controller.selectedIds.length} ${"delete_msg".tr}");
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          "${"delete".tr} - ${controller.selectedIds.length}",
+                : Row(
+                    children: [
+                      ActionButton(
+                        onPressed: () {
+                          controller.deleteNotes();
+                          context.showMessage(
+                              "${controller.selectedIds.length} ${"delete_msg".tr}");
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              "${"delete".tr} - ${controller.selectedIds.length}",
+                            ),
+                            const SizedBox(width: 8),
+                            const Icon(Icons.delete),
+                          ],
                         ),
-                        const SizedBox(width: 8),
-                        const Icon(Icons.delete),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(width: AppSpacings.l),
+                      ActionButton(
+                        onPressed: controller.cancelDeleteNotes,
+                        child: const Icon(Icons.close_rounded),
+                      ),
+                    ],
                   ),
           ),
         ],
@@ -124,3 +134,4 @@ class NoteScreen extends StatelessWidget {
 // TODO: Add Remember me => Notification
 // TODO: Add Choose Color => Color Pallete
 // TODO: Add Error Handling With dartz
+// TODO: This is for end of application - Change to Clean architect.

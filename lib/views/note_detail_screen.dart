@@ -27,7 +27,7 @@ class NoteDetailScreen extends StatelessWidget {
             onPressed: () {
               controller.delete(note.id!);
               context.showMessage(
-                "پا ک شد",
+                "1 ${"delete_msg".tr}",
               );
               Navigator.pop(context);
             },

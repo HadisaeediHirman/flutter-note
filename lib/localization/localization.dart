@@ -30,7 +30,7 @@ class Localization extends Translations {
           'settings': "تنظیمات",
           'change_language': "تغییر زبان",
           'change_theme': 'تغییر نمایه',
-          "delete_msg": "یادداشت حذف شذند."
+          "delete_msg": "یادداشت حذف شدند."
         },
       };
 }
