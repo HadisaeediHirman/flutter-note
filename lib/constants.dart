@@ -19,6 +19,7 @@ const List<Color> colors = [
 const String databaseBox = "note_box";
 const fa = Locale("fa", "IR");
 const us = Locale("en", "US");
+const animationDuration = Duration(milliseconds: 400);
 
 final _random = Random();
 
