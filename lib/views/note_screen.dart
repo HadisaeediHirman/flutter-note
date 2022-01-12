@@ -74,36 +74,28 @@ class NoteScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    AnimatedSwitcher(
-                      duration: animationDuration,
-                      transitionBuilder: (child, animation) => ScaleTransition(
-                        scale: animation,
-                        child: child,
+                    if (controller.selectedIds.isEmpty)
+                      ActionButton(
+                        onPressed: () {},
+                        child: const Icon(Icons.settings),
                       ),
-                      child: controller.selectedIds.isEmpty
-                          ? ActionButton(
-                              key: const ValueKey("Seeting Key"),
-                              onPressed: () {},
-                              child: const Icon(Icons.settings),
-                            )
-                          : ActionButton(
-                              key: const ValueKey("Delete Key"),
-                              onPressed: () {
-                                controller.deleteNotes();
-                                context.showMessage(
-                                    "${controller.selectedIds.length} یادداشت با موفقیت حذف شدند.");
-                              },
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "حذف - ${controller.selectedIds.length}",
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Icon(Icons.delete),
-                                ],
-                              ),
+                    if (controller.selectedIds.isNotEmpty)
+                      ActionButton(
+                        onPressed: () {
+                          controller.deleteNotes();
+                          context.showMessage(
+                              "${controller.selectedIds.length} یادداشت با موفقیت حذف شدند.");
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              "حذف - ${controller.selectedIds.length}",
                             ),
-                    ),
+                            const SizedBox(width: 8),
+                            const Icon(Icons.delete),
+                          ],
+                        ),
+                      ),
                   ],
                 ),
               ),
