@@ -6,3 +6,4 @@ export 'theme/style.dart';
 export 'theme/theme.dart';
 export 'extension/context.dart';
 export 'extension/random.dart';
+export 'extension/string.dart';
