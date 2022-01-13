@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:simple_hive_note/constants.dart';
-import 'package:simple_hive_note/localization/localization.dart';
-import 'package:simple_hive_note/models/note.dart';
-import 'package:simple_hive_note/theme/colors.dart';
-import 'package:simple_hive_note/theme/theme.dart';
-import 'package:simple_hive_note/views/note_screen.dart';
+
+import 'core/app.dart';
+import 'core/utils/constants.dart';
+import 'features/note/data/models/note.dart';
+import 'features/note/data/models/todo.dart';
 
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(NoteAdapter());
-  await Hive.openBox<Note>(databaseBox);
+  Hive.registerAdapter(TodoAdapter());
+  await Hive.openBox(databaseBox);
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -20,22 +19,5 @@ void main() async {
       statusBarIconBrightness: Brightness.dark,
     ),
   );
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Simple Note',
-      translations: Localization(),
-      locale: const Locale("fa", "IR"),
-      fallbackLocale: const Locale("fa", "IR"),
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.theme,
-      home: NoteScreen(),
-    );
-  }
+  runApp(const App());
 }
