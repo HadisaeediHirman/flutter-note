@@ -48,31 +48,31 @@ class _AddUpdateNoteScreenState extends State<AddUpdateNoteScreen> {
                           Navigator.pop(context);
                         },
                       ),
-                      ActionButton(
-                        child: Text(
-                          controller.isLoading.value ? "saving".tr : "save".tr,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onPressed: () async {
-                          final now = Jalali.fromDateTime(DateTime.now());
-                          final _uuid = const Uuid();
-                          final note = Note(
-                            id: _uuid.v4(),
-                            title: _titleController.text,
-                            description: _descriptionController.text,
-                            dateTime: "${now.day}/${now.month}/${now.year}",
-                            colorValue: colors.randomElement.value,
-                          );
+                      // ActionButton(
+                      //   child: Text(
+                      //     controller.isLoading.value ? "saving".tr : "save".tr,
+                      //     style: const TextStyle(
+                      //       fontSize: 15,
+                      //       fontWeight: FontWeight.bold,
+                      //     ),
+                      //   ),
+                      //   onPressed: () async {
+                      //     final now = Jalali.fromDateTime(DateTime.now());
+                      //     final _uuid = const Uuid();
+                      //     final note = Note(
+                      //       id: _uuid.v4(),
+                      //       title: _titleController.text,
+                      //       description: _descriptionController.text,
+                      //       dateTime: "${now.day}/${now.month}/${now.year}",
+                      //       colorValue: colors.randomElement.value,
+                      //     );
 
-                          await controller.addNote(note);
-                          _titleController.clear();
-                          _descriptionController.clear();
-                          context.showMessage("یادداشت با موفقیت اضافه شد.");
-                        },
-                      ),
+                      //     await controller.addNote(note);
+                      //     _titleController.clear();
+                      //     _descriptionController.clear();
+                      //     context.showMessage("یادداشت با موفقیت اضافه شد.");
+                      //   },
+                      // ),
                     ],
                   ),
                 ),
@@ -84,10 +84,10 @@ class _AddUpdateNoteScreenState extends State<AddUpdateNoteScreen> {
                 ),
               ],
             ),
-            if (controller.isLoading.value)
-              Container(
-                color: Colors.black.withOpacity(.2),
-              ),
+            // if (controller.isLoading.value)
+            //   Container(
+            //     color: Colors.black.withOpacity(.2),
+            //   ),
           ],
         ),
       ),

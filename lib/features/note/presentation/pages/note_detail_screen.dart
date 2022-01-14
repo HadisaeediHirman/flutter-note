@@ -22,11 +22,11 @@ class NoteDetailScreen extends StatelessWidget {
           ),
           ActionButton(
             onPressed: () {
-              controller.delete(note.id!);
-              context.showMessage(
-                "1 ${"delete_msg".tr}",
-              );
-              Navigator.pop(context);
+              // controller.delete(note.id!);
+              // context.showMessage(
+              //   "1 ${"delete_msg".tr}",
+              // );
+              // Navigator.pop(context);
             },
             child: const Icon(Icons.delete),
           ),

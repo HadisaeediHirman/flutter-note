@@ -1,6 +1,6 @@
-import 'package:simple_hive_note/core/data/database.dart';
-import 'package:simple_hive_note/features/note/data/models/note.dart';
-import 'package:simple_hive_note/features/note/domain/repositories/note_repository.dart';
+import '../../../../core/data/database.dart';
+import '../../domain/repositories/note_repository.dart';
+import '../models/note.dart';
 
 class NoteRepositoryImpl implements NoteRepository {
   final DatabaseProvider _database;

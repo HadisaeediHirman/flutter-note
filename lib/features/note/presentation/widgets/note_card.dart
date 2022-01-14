@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_hive_note/features/note/data/models/note.dart';
 
 import '../../../../core/utils/utils.dart';
+import '../../domain/entities/note_entity.dart';
 
 class NoteCard extends StatelessWidget {
   const NoteCard({
@@ -13,7 +13,7 @@ class NoteCard extends StatelessWidget {
     this.onTap,
   }) : super(key: key);
 
-  final Note note;
+  final NoteEntity note;
   final bool selected;
   final Function()? onSelect;
   final Function()? onTap;
@@ -22,20 +22,20 @@ class NoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       clipBehavior: Clip.antiAlias,
-      borderRadius: BorderRadius.circular(8),
-      color: Color(note.colorValue ?? 0xff5C4F45),
+      borderRadius: BorderRadius.circular(AppSpacings.m),
+      color: note.color ?? const Color(0xff5C4F45),
       child: InkWell(
         splashColor: Colors.black12,
         onLongPress: onSelect,
         onTap: onTap,
         child: Container(
-          constraints: const BoxConstraints(
-            maxHeight: 300,
-            minHeight: 100,
-          ),
+          // constraints: const BoxConstraints(
+          //   maxHeight: 300,
+          //   minHeight: 100,
+          // ),
           padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 12,
+            horizontal: AppSpacings.l,
+            vertical: AppSpacings.l,
           ),
           child: Stack(
             children: [
@@ -50,21 +50,15 @@ class NoteCard extends StatelessWidget {
                       presetFontSizes: const [16, 14, 12, 10, 8],
                       textScaleFactor: 2,
                       softWrap: true,
-                      style: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: AppTextStyle.title,
                       group: AutoSizeGroup(),
                       overflow: TextOverflow.fade,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: AppSpacings.m),
                   Text(
-                    note.dateTime ?? "",
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Colors.white60,
-                    ),
+                    note.date,
+                    style: AppTextStyle.date,
                   ),
                 ],
               ),
@@ -80,15 +74,15 @@ class NoteCard extends StatelessWidget {
                         BoxShadow(
                           blurRadius: 10,
                           spreadRadius: 20,
-                          color: Color(note.colorValue!),
+                          color: note.color ?? AppColors.primary,
                         ),
                       ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(AppSpacings.m),
                       child: Icon(
                         Icons.check,
-                        color: Color(note.colorValue!),
+                        color: note.color,
                         size: 20,
                       ),
                     ),

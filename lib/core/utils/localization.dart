@@ -13,6 +13,8 @@ class Localization extends Translations {
           "saving": "Saving ...",
           "empty_note": "No notes found...\n click \"+\" to add new one.",
           'failed_load_notes': 'Failed to load notes, please try again.',
+          'failed_add_notes': 'Failed to add notes, please try again.',
+          'failed_delete_notes': 'Failed to delete notes, please try again.',
           'settings': "Settings",
           'change_language': "Change Language",
           'change_theme': "Change Theme",
@@ -32,6 +34,8 @@ class Localization extends Translations {
               "یادداشتی وجود ندارد\n با کلیک بر روی دکمه \"+\" یکی اضافه کنید",
           'failed_load_notes':
               'خطا در بارگذاری یادداشت ها، لطفا دوباره امتحان کنید.',
+          'failed_add_notes': 'خطا در ایحاد یادداشت، لطفا دوباره امتحان کنید.',
+          'failed_delete_notes': 'خطا در حذف یادداشت، لطفا دوباره اکتحان کنید.',
           'settings': "تنظیمات",
           'change_language': "تغییر زبان",
           'change_theme': 'تغییر نمایه',

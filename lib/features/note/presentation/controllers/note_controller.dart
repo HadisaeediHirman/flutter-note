@@ -1,66 +1,34 @@
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+import 'package:simple_hive_note/features/note/domain/entities/note_entity.dart';
 
-import '../../../../core/utils/constants.dart';
-import '../../data/models/note.dart';
+import '../../domain/usecases/get_all_note_usecase.dart';
 
 class NoteController extends GetxController {
-  var notes = <Note>[].obs;
-  var selectedIds = <String>[].obs;
-  var isLoading = false.obs;
+  final GetAllNotesUsecase _getAllNotesUsecase;
+  NoteController(this._getAllNotesUsecase);
 
-  final _box = Hive.box<Note>(databaseBox);
+  RxList<NoteEntity> notes = <NoteEntity>[].obs;
+  RxString error = "".obs;
+  var selectedIds = <String>[].obs;
+
+  // var isLoading = false.obs;
 
   @override
   void onInit() {
     super.onInit();
-    // _box.clear();
-    notes.value = _box.values.toList();
-    print(DateTime.now().toLocal());
+
+    fetchAllNotes();
   }
 
-  addNote(Note note) async {
-    isLoading.value = true;
-    await Future.delayed(const Duration(milliseconds: 400));
-    notes.insert(0, note);
-    await _box.put(note.id, note);
-    isLoading.value = false;
-  }
+  fetchAllNotes() async {
+    final failOrSuccess = await _getAllNotesUsecase();
 
-  bool isSelected(String? id) => (id != null) && selectedIds.contains(id);
-
-  toggleSelect(String? id) {
-    if (selectedIds.contains(id)) {
-      selectedIds.remove(id);
-    } else {
-      if (id != null) {
-        selectedIds.add(id);
-      }
-    }
-  }
-
-  delete(String id) async {
-    try {
-      await _box.delete(id);
-      notes.removeWhere((element) => element.id == id);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  deleteNotes() async {
-    try {
-      await _box.deleteAll(selectedIds.value);
-      selectedIds.forEach((id) {
-        notes.removeWhere((note) => note.id == id);
-      });
-      selectedIds.clear();
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  cancelDeleteNotes() {
-    selectedIds.clear();
+    failOrSuccess.fold(
+      (error) => print(error.message),
+      (notes) {
+        notes.addAll(notes);
+        update(['get_all_notes']);
+      },
+    );
   }
 }

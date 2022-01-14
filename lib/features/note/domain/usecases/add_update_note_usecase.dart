@@ -27,7 +27,7 @@ class AddUpdateNoteUsecase {
       return right(unit);
     } catch (e) {
       return left(
-        NoteError(message: "failed_load_notes".tr),
+        NoteError(message: "failed_add_notes".tr),
       );
     }
   }
