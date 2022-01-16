@@ -1,17 +1,35 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:simple_hive_note/features/note/domain/entities/note_entity.dart';
+import 'package:simple_hive_note/features/note/domain/usecases/delete_multiple_notes_usecase.dart';
+import 'package:simple_hive_note/features/note/domain/usecases/delete_note_usecase.dart';
 
+import '../../../../core/utils/snackbar.dart';
+import '../../../../core/utils/utils.dart';
+import '../../domain/entities/note_entity.dart';
+import '../../domain/usecases/add_update_note_usecase.dart';
 import '../../domain/usecases/get_all_note_usecase.dart';
 
 class NoteController extends GetxController {
   final GetAllNotesUsecase _getAllNotesUsecase;
-  NoteController(this._getAllNotesUsecase);
+  final AddUpdateNoteUsecase _addUpdateNoteUsecase;
+  final DeleteNoteUsecase _deleteNoteUsecase;
+  final DeleteMultipleNoteUsecase _deleteMultipleNoteUsecase;
+  NoteController(
+    this._getAllNotesUsecase,
+    this._addUpdateNoteUsecase,
+    this._deleteNoteUsecase,
+    this._deleteMultipleNoteUsecase,
+  );
 
-  RxList<NoteEntity> notes = <NoteEntity>[].obs;
-  RxString error = "".obs;
-  var selectedIds = <String>[].obs;
+  List<NoteEntity> notes = <NoteEntity>[];
+  // RxString errorMessage = "".obs;
 
-  // var isLoading = false.obs;
+  RxList<String> selectedIds = <String>[].obs;
+  late TextEditingController titleController;
+  late TextEditingController descriptionController;
+
+  RxBool isLoading = false.obs;
+  Rx<Color> selectedColor = (colors.randomElement as Color).obs;
 
   @override
   void onInit() {
@@ -20,15 +38,79 @@ class NoteController extends GetxController {
     fetchAllNotes();
   }
 
+  void setSelectedColor(Color value) => selectedColor.value = value;
+
   fetchAllNotes() async {
     final failOrSuccess = await _getAllNotesUsecase();
 
     failOrSuccess.fold(
-      (error) => print(error.message),
-      (notes) {
-        notes.addAll(notes);
-        update(['get_all_notes']);
+      (error) => {},
+      (noteEntities) {
+        notes.clear();
+        notes.addAll(noteEntities);
       },
+    );
+    update(['note_list']);
+  }
+
+  addUpdateNote(NoteEntity note) async {
+    final bool _isEdit = note.id != null;
+    final failOrSuccess = await _addUpdateNoteUsecase(note);
+
+    isLoading.value = true;
+
+    await Future.delayed(animationDuration);
+
+    failOrSuccess.fold(
+      (error) {
+        AppSnackbar.showSnackbar(error.message ?? "", isError: true);
+        print(error.message);
+      },
+      (_) {
+        if (_isEdit) {
+          AppSnackbar.showSnackbar("note_updated".tr);
+        } else {
+          AppSnackbar.showSnackbar("note_added".tr);
+        }
+      },
+    );
+
+    isLoading.value = false;
+  }
+
+  bool isSelected(String? id) {
+    var d = (id != null) && (selectedIds.contains(id));
+
+    print(d);
+    // update(['note_list']);
+    return d;
+  }
+
+  toggleSelect(String noteId) {
+    if (selectedIds.contains(noteId)) {
+      selectedIds.remove(noteId);
+    } else {
+      selectedIds.add(noteId);
+    }
+  }
+
+  void cancelDeleting() => selectedIds.clear();
+
+  deleteMultiNotes() async {
+    final failOrSuccess = await _deleteMultipleNoteUsecase(selectedIds.value);
+
+    failOrSuccess.fold(
+      (error) => print(error.message),
+      (_) {},
+    );
+  }
+
+  delete(String noteId) async {
+    final failOrSuccess = await _deleteNoteUsecase(noteId);
+
+    failOrSuccess.fold(
+      (error) => print(error.message),
+      (_) {},
     );
   }
 }

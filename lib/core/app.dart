@@ -15,6 +15,8 @@ class App extends StatelessWidget {
       locale: const Locale("fa", "IR"),
       fallbackLocale: const Locale("fa", "IR"),
       debugShowCheckedModeBanner: false,
+      defaultTransition: Transition.circularReveal,
+      transitionDuration: pageTransitionDuration,
       theme: AppTheme.theme,
       initialRoute: AppPages.initialRoute,
       getPages: AppPages.pages,

@@ -8,7 +8,7 @@ import 'package:simple_hive_note/features/note/domain/entities/note_entity.dart'
 part 'note.g.dart';
 
 @HiveType(typeId: 0)
-class Note extends Equatable {
+class Note extends Equatable implements Comparable {
   @HiveField(0)
   final String? id;
 
@@ -76,6 +76,18 @@ class Note extends Equatable {
       dateTime: dateTime ?? this.dateTime,
       todos: todos ?? this.todos,
     );
+  }
+
+  @override
+  int compareTo(other) {
+    try {
+      final _isAfter = DateTime.parse(other.dateTime).isAfter(
+        DateTime.parse(dateTime!),
+      );
+      return _isAfter ? 1 : -1;
+    } catch (_) {
+      return 1;
+    }
   }
 
   @override

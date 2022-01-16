@@ -2,20 +2,15 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:simple_hive_note/features/note/data/models/note.dart';
-import 'package:simple_hive_note/features/note/domain/entities/note_entity.dart';
-import '../../../../core/data/database.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:simple_hive_note/core/routes/app_routes.dart';
 
-import '../../../../core/routes/app_routes.dart';
+import '../../../../core/data/database_provider.dart';
 import '../../../../core/utils/utils.dart';
-import '../../../../core/widgets/action_button.dart';
-import '../../../../core/widgets/error_text.dart';
-import '../../../../core/widgets/note_appbar.dart';
-import '../../../setting/presentation/pages/setting_screen.dart';
+import '../../../../core/widgets/widgets.dart';
+import '../../domain/entities/note_entity.dart';
 import '../controllers/note_controller.dart';
 import '../widgets/note_card.dart';
-import 'add_update_note_screen.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class NoteScreen extends GetView<NoteController> {
   const NoteScreen({Key? key}) : super(key: key);
@@ -31,12 +26,7 @@ class NoteScreen extends GetView<NoteController> {
             () => controller.selectedIds.isEmpty
                 ? ActionButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SettingScreen(),
-                        ),
-                      );
+                      Get.toNamed(AppRoutes.setting);
                       // _changeLanguage(us);
                     },
                     child: const Icon(Icons.settings),
@@ -45,7 +35,7 @@ class NoteScreen extends GetView<NoteController> {
                     children: [
                       ActionButton(
                         onPressed: () {
-                          // controller.deleteNotes();
+                          controller.deleteMultiNotes();
                           // context.showMessage(
                           //     "${controller.selectedIds.length} ${"delete_msg".tr}");
                         },
@@ -61,7 +51,7 @@ class NoteScreen extends GetView<NoteController> {
                       ),
                       const SizedBox(width: AppSpacings.l),
                       ActionButton(
-                        onPressed: () {},
+                        onPressed: controller.cancelDeleting,
                         child: const Icon(Icons.close_rounded),
                       ),
                     ],
@@ -72,12 +62,7 @@ class NoteScreen extends GetView<NoteController> {
       floatingActionButton: FadeInLeft(
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const AddUpdateNoteScreen(),
-              ),
-            );
+            Get.toNamed(AppRoutes.addUpdate);
           },
           child: const Icon(Icons.add),
         ),
@@ -85,17 +70,13 @@ class NoteScreen extends GetView<NoteController> {
       body: ValueListenableBuilder(
         valueListenable: DatabaseProvider().box.listenable(),
         builder: (BuildContext context, _, Widget? child) {
-          return GetBuilder<NoteController>(
-            id: "get_all_notes",
-            builder: (controller) {
-              if (controller.error.value != "") {
-                print("error = ${controller.error.string}");
-                return ErrorText(message: controller.error.string);
-              }
-              return _BuildNotesList(notes: controller.notes);
-            },
-          );
+          controller.fetchAllNotes();
+          return child!;
         },
+        child: GetBuilder<NoteController>(
+          id: "note_list",
+          builder: (controller) => _BuildNotesList(controller: controller),
+        ),
       ),
     );
   }
@@ -110,36 +91,45 @@ class NoteScreen extends GetView<NoteController> {
 // TODO: This is for end of application - Change to Clean architect.
 
 class _BuildNotesList extends StatelessWidget {
-  const _BuildNotesList({Key? key, required this.notes}) : super(key: key);
+  const _BuildNotesList({Key? key, required this.controller}) : super(key: key);
 
-  final List<NoteEntity> notes;
+  final NoteController controller;
 
   @override
   Widget build(BuildContext context) {
-    return StaggeredGrid.count(
-      crossAxisCount: 2,
-      mainAxisSpacing: AppSpacings.xl,
-      crossAxisSpacing: AppSpacings.xl,
-      children: List.generate(
-        notes.length,
-        (index) {
-          final note = notes[index];
-          return FadeInDown(
-            delay: Duration(milliseconds: 150 * index),
-            child: NoteCard(
-              note: note,
-              // selected: controller.isSelected(note.id),
-              // onSelect: () => controller.toggleSelect(note.id),
-              // onTap: () {
-              //   if (controller.selectedIds.isEmpty) {
-              //     Get.toNamed(AppRoutes.noteDetail, arguments: note);
-              //   } else {
-              //     controller.toggleSelect(note.id);
-              //   }
-              // },
-            ),
-          );
-        },
+    print("NOTEs Lenght = ${controller.notes.length}");
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacings.xl,
+        AppSpacings.xl,
+        AppSpacings.xl,
+        0,
+      ),
+      child: StaggeredGrid.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: AppSpacings.xl,
+        crossAxisSpacing: AppSpacings.xl,
+        children: List.generate(
+          controller.notes.length,
+          (index) {
+            final note = controller.notes[index];
+            return FadeInDown(
+              delay: Duration(milliseconds: 100 * index),
+              child: NoteCard(
+                note: note,
+                selected: controller.isSelected(note.id),
+                onSelect: () => controller.toggleSelect(note.id!),
+                onTap: () {
+                  if (controller.selectedIds.isEmpty) {
+                    Get.toNamed(AppRoutes.noteDetail, arguments: note);
+                  } else {
+                    controller.toggleSelect(note.id!);
+                  }
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

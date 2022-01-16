@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_hive_note/features/note/domain/entities/note_entity.dart';
 
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/widgets.dart';
@@ -12,7 +13,7 @@ class NoteDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<NoteController>();
-    final note = Get.arguments as Note;
+    final note = Get.arguments as NoteEntity;
     return Scaffold(
       appBar: NoteAppbar(
         actions: [
@@ -45,7 +46,7 @@ class NoteDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacings.l),
               SelectableText(
-                note.dateTime ?? "",
+                note.dateWithTime,
                 style: AppTextStyle.date,
               ),
               const SizedBox(height: AppSpacings.xxl),

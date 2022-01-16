@@ -38,6 +38,7 @@ class DatabaseProvider implements DatabaseRepository {
 
   @override
   List<T> getAll<T>() {
+    // box.clear();
     try {
       final data = box.toMap().values;
       if (data.isEmpty) {

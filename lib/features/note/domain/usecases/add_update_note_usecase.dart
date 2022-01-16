@@ -15,19 +15,28 @@ class AddUpdateNoteUsecase {
   const AddUpdateNoteUsecase(this._repository);
 
   Future<Either<NoteError, Unit>> call(NoteEntity noteEntity) async {
+    final bool _isEdit = noteEntity.id != null;
     try {
       noteEntity.todos.removeWhere((todo) => todo.title.isEmptyString);
       final note = Note.fromNote(noteEntity);
 
       if (!note.validNote) {
-        return left(NoteError(message: "title_empty".tr));
+        return left(
+          NoteError(
+            message: _isEdit ? "title_update_empty".tr : "title_empty".tr,
+          ),
+        );
       }
 
-      await _repository.addUpdateNote(note.copyWith(id: _uuid.v4()));
+      await _repository
+          .addUpdateNote(_isEdit ? note : note.copyWith(id: _uuid.v4()));
       return right(unit);
     } catch (e) {
+      print(e);
       return left(
-        NoteError(message: "failed_add_notes".tr),
+        NoteError(
+          message: _isEdit ? "failed_update_notes".tr : "failed_add_notes".tr,
+        ),
       );
     }
   }

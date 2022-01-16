@@ -1,16 +1,15 @@
-import '../../../../core/data/database.dart';
+import 'package:simple_hive_note/core/data/database_provider.dart';
+
 import '../../domain/repositories/note_repository.dart';
 import '../models/note.dart';
 
 class NoteRepositoryImpl implements NoteRepository {
-  final DatabaseProvider _database;
-
-  NoteRepositoryImpl(this._database);
+  NoteRepositoryImpl();
 
   @override
   Future addUpdateNote(Note note) async {
     try {
-      await _database.addUpdate(note.id!, note);
+      await DatabaseProvider().addUpdate(note.id!, note);
     } catch (e) {
       rethrow;
     }
@@ -19,7 +18,7 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future deleteMultiNotes(List<String> ids) async {
     try {
-      await _database.deleteAll(ids);
+      await DatabaseProvider().deleteAll(ids);
     } catch (e) {
       rethrow;
     }
@@ -28,7 +27,7 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future deleteNote(String id) async {
     try {
-      await _database.delete(id);
+      await DatabaseProvider().delete(id);
     } catch (e) {
       rethrow;
     }
@@ -37,7 +36,8 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   List<Note> getAllNotes() {
     try {
-      final notes = _database.getAll().map((note) => note as Note).toList();
+      final notes =
+          DatabaseProvider().getAll().map((note) => note as Note).toList();
       return notes;
     } catch (e) {
       rethrow;
@@ -47,7 +47,7 @@ class NoteRepositoryImpl implements NoteRepository {
   @override
   Future<Note> getNote(String id) async {
     try {
-      final note = await _database.get(id) as Note;
+      final note = await DatabaseProvider().get(id) as Note;
       return note;
     } catch (e) {
       rethrow;

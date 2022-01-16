@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:simple_hive_note/features/note/domain/usecases/add_update_note_usecase.dart';
+import 'package:simple_hive_note/features/note/domain/usecases/delete_multiple_notes_usecase.dart';
+import 'package:simple_hive_note/features/note/domain/usecases/delete_note_usecase.dart';
 
-import '../../../core/data/database.dart';
 import '../data/repositories/note_repository.dart';
 import '../domain/usecases/get_all_note_usecase.dart';
 import '../presentation/controllers/note_controller.dart';
@@ -8,9 +10,19 @@ import '../presentation/controllers/note_controller.dart';
 class NoteBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => DatabaseProvider());
-    Get.lazyPut(() => NoteRepositoryImpl(Get.find<DatabaseProvider>()));
+    Get.lazyPut(() => NoteRepositoryImpl());
     Get.lazyPut(() => GetAllNotesUsecase(Get.find<NoteRepositoryImpl>()));
-    Get.lazyPut(() => NoteController(Get.find<GetAllNotesUsecase>()));
+    Get.lazyPut(() => AddUpdateNoteUsecase(Get.find<NoteRepositoryImpl>()));
+    Get.lazyPut(() => DeleteNoteUsecase(Get.find<NoteRepositoryImpl>()));
+    Get.lazyPut(
+        () => DeleteMultipleNoteUsecase(Get.find<NoteRepositoryImpl>()));
+    Get.lazyPut(
+      () => NoteController(
+        Get.find<GetAllNotesUsecase>(),
+        Get.find<AddUpdateNoteUsecase>(),
+        Get.find<DeleteNoteUsecase>(),
+        Get.find<DeleteMultipleNoteUsecase>(),
+      ),
+    );
   }
 }

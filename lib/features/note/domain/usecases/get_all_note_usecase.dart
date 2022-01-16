@@ -22,6 +22,7 @@ class GetAllNotesUsecase extends BaseUseCase<List<NoteEntity>> {
 
       return right(sortedNotes);
     } catch (e) {
+      print("USECASE ERROR ====> $e");
       if (e is NoRecordsException) {
         return left(
           NoteError(message: 'empty_note'.tr),

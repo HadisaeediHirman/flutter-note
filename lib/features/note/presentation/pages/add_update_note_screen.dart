@@ -1,95 +1,53 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shamsi_date/shamsi_date.dart';
-import 'package:uuid/uuid.dart';
+import 'package:simple_hive_note/features/note/presentation/widgets/add_update/colors_bar.dart';
+import '../../domain/entities/note_entity.dart';
+import '../widgets/add_update/input_field.dart';
 
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/widgets.dart';
-import '../../data/models/note.dart';
 import '../controllers/note_controller.dart';
 
 class AddUpdateNoteScreen extends StatefulWidget {
   const AddUpdateNoteScreen({Key? key, this.note}) : super(key: key);
 
-  final Note? note;
+  final NoteEntity? note;
 
   @override
   State<AddUpdateNoteScreen> createState() => _AddUpdateNoteScreenState();
 }
 
 class _AddUpdateNoteScreenState extends State<AddUpdateNoteScreen> {
-  late final _titleController = TextEditingController();
-  late final _descriptionController = TextEditingController();
+  final controller = Get.find<NoteController>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.titleController =
+        TextEditingController(text: widget.note?.title);
+    controller.descriptionController =
+        TextEditingController(text: widget.note?.description);
+    controller.selectedColor.value = colors.randomElement as Color;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<NoteController>();
-    return Scaffold(
-      body: Obx(
-        () => Stack(
-          children: [
-            Column(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  height: 100,
-                  alignment: Alignment.bottomRight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ActionButton(
-                        child: Icon(
-                          Get.locale == fa
-                              ? Icons.keyboard_arrow_right_rounded
-                              : Icons.keyboard_arrow_left_rounded,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      // ActionButton(
-                      //   child: Text(
-                      //     controller.isLoading.value ? "saving".tr : "save".tr,
-                      //     style: const TextStyle(
-                      //       fontSize: 15,
-                      //       fontWeight: FontWeight.bold,
-                      //     ),
-                      //   ),
-                      //   onPressed: () async {
-                      //     final now = Jalali.fromDateTime(DateTime.now());
-                      //     final _uuid = const Uuid();
-                      //     final note = Note(
-                      //       id: _uuid.v4(),
-                      //       title: _titleController.text,
-                      //       description: _descriptionController.text,
-                      //       dateTime: "${now.day}/${now.month}/${now.year}",
-                      //       colorValue: colors.randomElement.value,
-                      //     );
-
-                      //     await controller.addNote(note);
-                      //     _titleController.clear();
-                      //     _descriptionController.clear();
-                      //     context.showMessage("یادداشت با موفقیت اضافه شد.");
-                      //   },
-                      // ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: _BuildForm(
-                    titleController: _titleController,
-                    descriptionController: _descriptionController,
-                  ),
-                ),
-              ],
+    return Obx(
+      () => Stack(
+        children: [
+          _BuildForm(
+            controller: controller,
+            note: widget.note,
+          ),
+          if (controller.isLoading.value)
+            FadeIn(
+              child: Container(
+                color: Colors.black.withOpacity(.2),
+              ),
             ),
-            // if (controller.isLoading.value)
-            //   Container(
-            //     color: Colors.black.withOpacity(.2),
-            //   ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -98,72 +56,72 @@ class _AddUpdateNoteScreenState extends State<AddUpdateNoteScreen> {
 class _BuildForm extends StatelessWidget {
   const _BuildForm({
     Key? key,
-    required this.titleController,
-    required this.descriptionController,
-  }) : super(key: key);
-
-  final TextEditingController titleController;
-  final TextEditingController descriptionController;
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Column(
-        children: [
-          _BuildField(
-            controller: titleController,
-            hint: "title".tr,
-            autoFocus: true,
-          ),
-          // const SizedBox(height: 10),
-          _BuildField(
-            controller: descriptionController,
-            hint: "type_something".tr,
-            maxLines: null,
-            fonSize: 20,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _BuildField extends StatelessWidget {
-  const _BuildField({
-    Key? key,
     required this.controller,
-    required this.hint,
-    this.maxLines = 1,
-    this.fonSize = 30,
-    this.autoFocus = false,
+    required this.note,
   }) : super(key: key);
 
-  final TextEditingController controller;
-  final String hint;
-  final int? maxLines;
-  final double? fonSize;
-  final bool autoFocus;
+  final NoteController controller;
+  final NoteEntity? note;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      autofocus: autoFocus,
-      maxLines: maxLines,
-      style: TextStyle(
-        fontSize: fonSize,
-        fontWeight: maxLines != null ? FontWeight.bold : null,
-      ),
-      cursorColor: Colors.white,
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        hintText: hint,
-        hintStyle: TextStyle(
-          fontSize: fonSize,
-          fontWeight: maxLines != null ? FontWeight.bold : null,
+    return Obx(
+      () => Scaffold(
+        backgroundColor: controller.selectedColor.value,
+        bottomNavigationBar: ColorsBar(
+          selectedColor: controller.selectedColor.value,
+          onChanged: controller.setSelectedColor,
+        ),
+        appBar: NoteAppbar(
+          actions: [
+            ActionButton(
+              child: Text(
+                controller.isLoading.value ? "saving".tr : "save".tr,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: _addUdpdateNote,
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(AppSpacings.xl),
+          child: Column(
+            children: [
+              BuildField(
+                controller: controller.titleController,
+                hint: "title".tr,
+                autoFocus: true,
+              ),
+              // const SizedBox(height: 10),
+              BuildField(
+                controller: controller.descriptionController,
+                hint: "type_something".tr,
+                maxLines: null,
+                fonSize: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  _addUdpdateNote() async {
+    final noteEntity = NoteEntity(
+      id: note != null ? note!.id! : null,
+      title: controller.titleController.text,
+      description: controller.descriptionController.text,
+      dateTime: DateTime.now(),
+      color: controller.selectedColor.value,
+      todos: [],
+    );
+
+    await controller.addUpdateNote(noteEntity);
+    controller.titleController.clear();
+    controller.descriptionController.clear();
+    // Get.back();
   }
 }

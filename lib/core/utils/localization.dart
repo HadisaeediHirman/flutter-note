@@ -14,6 +14,7 @@ class Localization extends Translations {
           "empty_note": "No notes found...\n click \"+\" to add new one.",
           'failed_load_notes': 'Failed to load notes, please try again.',
           'failed_add_notes': 'Failed to add notes, please try again.',
+          'failed_update_notes': 'Failed to update notes, please try again.',
           'failed_delete_notes': 'Failed to delete notes, please try again.',
           'settings': "Settings",
           'change_language': "Change Language",
@@ -21,6 +22,10 @@ class Localization extends Translations {
           "delete_msg": "Notes Deleted Successfully.",
           "no_match_note": "No matched note found.",
           "title_empty": 'Failed to add note, Title should not empty.',
+          "title_update_empty":
+              'Failed to update note, Title should not empty.',
+          "note_added": "Note Added Successfully",
+          "note_updated": "Note Updated Successfully",
         },
         'fa_IR': {
           'note': "یادداشت",
@@ -35,6 +40,8 @@ class Localization extends Translations {
           'failed_load_notes':
               'خطا در بارگذاری یادداشت ها، لطفا دوباره امتحان کنید.',
           'failed_add_notes': 'خطا در ایحاد یادداشت، لطفا دوباره امتحان کنید.',
+          'failed_update_notes':
+              'خطا در ویرایش یادداشت، لطفا دوباره امتحان کنید.',
           'failed_delete_notes': 'خطا در حذف یادداشت، لطفا دوباره اکتحان کنید.',
           'settings': "تنظیمات",
           'change_language': "تغییر زبان",
@@ -42,6 +49,9 @@ class Localization extends Translations {
           "delete_msg": "یادداشت حذف شدند.",
           "no_match_note": "این یادداشت یافت نشد.",
           "title_empty": "خطا در ایجاد یادداشت، عنوان نباید خالی باشد.",
+          "title_update_empty": "خطا در ویرایش یادداشت، عنوان نباید خالی باشد.",
+          "note_added": "یادداشت با موفقیت اضافه شد",
+          "note_updated": "یادداشت با موفقیت ویرایش شد",
         },
       };
 }
