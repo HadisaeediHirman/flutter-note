@@ -8,7 +8,6 @@ import 'package:simple_hive_note/core/routes/app_routes.dart';
 import '../../../../core/data/database_provider.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/widgets.dart';
-import '../../domain/entities/note_entity.dart';
 import '../controllers/note_controller.dart';
 import '../widgets/note_card.dart';
 
@@ -22,20 +21,20 @@ class NoteScreen extends GetView<NoteController> {
         title: "notes".tr,
         autoImplementLeading: false,
         actions: [
-          Obx(
-            () => controller.selectedIds.isEmpty
+          GetBuilder<NoteController>(
+            id: 'note_actions',
+            builder: (controller) => controller.selectedIds.isEmpty
                 ? ActionButton(
                     onPressed: () {
                       Get.toNamed(AppRoutes.setting);
-                      // _changeLanguage(us);
                     },
                     child: const Icon(Icons.settings),
                   )
                 : Row(
                     children: [
                       ActionButton(
-                        onPressed: () {
-                          controller.deleteMultiNotes();
+                        onPressed: () async {
+                          await controller.deleteMultiNotes();
                           // context.showMessage(
                           //     "${controller.selectedIds.length} ${"delete_msg".tr}");
                         },
@@ -97,14 +96,8 @@ class _BuildNotesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("NOTEs Lenght = ${controller.notes.length}");
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacings.xl,
-        AppSpacings.xl,
-        AppSpacings.xl,
-        0,
-      ),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(AppSpacings.xl),
       child: StaggeredGrid.count(
         crossAxisCount: 2,
         mainAxisSpacing: AppSpacings.xl,

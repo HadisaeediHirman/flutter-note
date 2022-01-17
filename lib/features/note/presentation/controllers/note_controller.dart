@@ -24,7 +24,7 @@ class NoteController extends GetxController {
   List<NoteEntity> notes = <NoteEntity>[];
   // RxString errorMessage = "".obs;
 
-  RxList<String> selectedIds = <String>[].obs;
+  List<String> selectedIds = <String>[];
   late TextEditingController titleController;
   late TextEditingController descriptionController;
 
@@ -78,13 +78,7 @@ class NoteController extends GetxController {
     isLoading.value = false;
   }
 
-  bool isSelected(String? id) {
-    var d = (id != null) && (selectedIds.contains(id));
-
-    print(d);
-    // update(['note_list']);
-    return d;
-  }
+  bool isSelected(String? id) => (id != null) && (selectedIds.contains(id));
 
   toggleSelect(String noteId) {
     if (selectedIds.contains(noteId)) {
@@ -92,16 +86,23 @@ class NoteController extends GetxController {
     } else {
       selectedIds.add(noteId);
     }
+    update(['note_list', 'note_actions']);
   }
 
-  void cancelDeleting() => selectedIds.clear();
+  void cancelDeleting() {
+    selectedIds.clear();
+    update(['note_list', 'note_actions']);
+  }
 
   deleteMultiNotes() async {
-    final failOrSuccess = await _deleteMultipleNoteUsecase(selectedIds.value);
+    final failOrSuccess = await _deleteMultipleNoteUsecase(selectedIds);
 
     failOrSuccess.fold(
       (error) => print(error.message),
-      (_) {},
+      (_) {
+        selectedIds.clear();
+        update(['note_list', 'note_actions']);
+      },
     );
   }
 
