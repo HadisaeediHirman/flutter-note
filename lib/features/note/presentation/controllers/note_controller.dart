@@ -100,6 +100,7 @@ class NoteController extends GetxController {
     failOrSuccess.fold(
       (error) => print(error.message),
       (_) {
+        AppSnackbar.showSnackbar("${selectedIds.length} ${"delete_msg".tr}");
         selectedIds.clear();
         update(['note_list', 'note_actions']);
       },
@@ -111,7 +112,10 @@ class NoteController extends GetxController {
 
     failOrSuccess.fold(
       (error) => print(error.message),
-      (_) {},
+      (_) {
+        AppSnackbar.showSnackbar("1 ${"delete_msg".tr}");
+        update(['note_list']);
+      },
     );
   }
 }

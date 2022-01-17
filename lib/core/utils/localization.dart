@@ -46,7 +46,7 @@ class Localization extends Translations {
           'settings': "تنظیمات",
           'change_language': "تغییر زبان",
           'change_theme': 'تغییر نمایه',
-          "delete_msg": "یادداشت حذف شدند.",
+          "delete_msg": "یادداشت حذف شد.",
           "no_match_note": "این یادداشت یافت نشد.",
           "title_empty": "خطا در ایجاد یادداشت، عنوان نباید خالی باشد.",
           "title_update_empty": "خطا در ویرایش یادداشت، عنوان نباید خالی باشد.",

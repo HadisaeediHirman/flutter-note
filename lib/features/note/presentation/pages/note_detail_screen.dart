@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_hive_note/core/routes/app_routes.dart';
 import 'package:simple_hive_note/features/note/domain/entities/note_entity.dart';
 
 import '../../../../core/utils/utils.dart';
@@ -18,16 +19,15 @@ class NoteDetailScreen extends StatelessWidget {
       appBar: NoteAppbar(
         actions: [
           ActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(AppRoutes.addUpdate, arguments: note);
+            },
             child: const Icon(Icons.edit),
           ),
           ActionButton(
             onPressed: () {
-              // controller.delete(note.id!);
-              // context.showMessage(
-              //   "1 ${"delete_msg".tr}",
-              // );
-              // Navigator.pop(context);
+              controller.delete(note.id!);
+              Get.back();
             },
             child: const Icon(Icons.delete),
           ),
