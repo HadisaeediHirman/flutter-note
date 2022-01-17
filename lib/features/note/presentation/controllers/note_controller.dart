@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:simple_hive_note/features/note/domain/usecases/delete_multiple_notes_usecase.dart';
-import 'package:simple_hive_note/features/note/domain/usecases/delete_note_usecase.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/snackbar.dart';
 import '../../../../core/utils/utils.dart';
 import '../../domain/entities/note_entity.dart';
 import '../../domain/usecases/add_update_note_usecase.dart';
+import '../../domain/usecases/delete_multiple_notes_usecase.dart';
+import '../../domain/usecases/delete_note_usecase.dart';
 import '../../domain/usecases/get_all_note_usecase.dart';
 
 class NoteController extends GetxController {
@@ -72,6 +73,7 @@ class NoteController extends GetxController {
         } else {
           AppSnackbar.showSnackbar("note_added".tr);
         }
+        Get.offAndToNamed(AppRoutes.note);
       },
     );
 

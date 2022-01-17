@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:simple_hive_note/core/exceptions/exception.dart';
-import 'package:simple_hive_note/core/utils/constants.dart';
+import 'package:simple_hive_note/core/utils/strings.dart';
 
 abstract class DatabaseRepository {
   Box get box;
@@ -21,7 +21,7 @@ class DatabaseProvider implements DatabaseRepository {
   }
 
   @override
-  Box get box => Hive.box(databaseBox);
+  Box get box => Hive.box(AppStrings.databaseBox);
 
   @override
   T get<T>(String id) {

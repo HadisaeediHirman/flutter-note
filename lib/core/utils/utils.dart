@@ -1,5 +1,6 @@
 export 'localization.dart';
 export 'constants.dart';
+export 'strings.dart';
 export 'theme/colors.dart';
 export 'theme/spacing.dart';
 export 'theme/style.dart';

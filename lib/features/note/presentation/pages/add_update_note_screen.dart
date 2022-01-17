@@ -122,6 +122,5 @@ class _BuildForm extends StatelessWidget {
     );
 
     controller.addUpdateNote(noteEntity);
-    Get.offAndToNamed(AppRoutes.note);
   }
 }

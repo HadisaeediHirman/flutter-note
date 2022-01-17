@@ -4,7 +4,7 @@ import '../../domain/repositories/note_repository.dart';
 import '../models/note.dart';
 
 class NoteRepositoryImpl implements NoteRepository {
-  NoteRepositoryImpl();
+  const NoteRepositoryImpl();
 
   @override
   Future addUpdateNote(Note note) async {
