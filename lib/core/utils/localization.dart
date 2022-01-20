@@ -26,6 +26,10 @@ class Localization extends Translations {
               'Failed to update note, Title should not empty.',
           "note_added": "Note Added Successfully",
           "note_updated": "Note Updated Successfully",
+          "theme_light": "Light",
+          "theme_dark": "Dark",
+          "persian": "Persian",
+          "english": "English",
         },
         'fa_IR': {
           'note': "یادداشت",
@@ -52,6 +56,10 @@ class Localization extends Translations {
           "title_update_empty": "خطا در ویرایش یادداشت، عنوان نباید خالی باشد.",
           "note_added": "یادداشت با موفقیت اضافه شد",
           "note_updated": "یادداشت با موفقیت ویرایش شد",
+          "theme_light": "روشن",
+          "theme_dark": "تاریک",
+          "persian": "فارسی",
+          "english": "انگلیسی",
         },
       };
 }

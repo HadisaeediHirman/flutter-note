@@ -3,5 +3,5 @@ class AppStrings {
 
   static const String databaseBox = "note_box";
   static const String isDark = "isDark";
-  static const String language = "language";
+  static const String locale = "locale";
 }

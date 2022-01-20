@@ -10,7 +10,7 @@ import '../presentation/controllers/note_controller.dart';
 class NoteBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => NoteRepositoryImpl());
+    Get.lazyPut(() => const NoteRepositoryImpl());
     Get.lazyPut(() => GetAllNotesUsecase(Get.find<NoteRepositoryImpl>()));
     Get.lazyPut(() => AddUpdateNoteUsecase(Get.find<NoteRepositoryImpl>()));
     Get.lazyPut(() => DeleteNoteUsecase(Get.find<NoteRepositoryImpl>()));

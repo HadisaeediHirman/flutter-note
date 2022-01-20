@@ -8,6 +8,7 @@ class BuildField extends StatelessWidget {
     this.maxLines = 1,
     this.fonSize = 30,
     this.autoFocus = false,
+    this.textInputAction,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -15,6 +16,7 @@ class BuildField extends StatelessWidget {
   final int? maxLines;
   final double? fonSize;
   final bool autoFocus;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class BuildField extends StatelessWidget {
       controller: controller,
       autofocus: autoFocus,
       maxLines: maxLines,
+      textInputAction: textInputAction,
       style: TextStyle(
         fontSize: fonSize,
         fontWeight: maxLines != null ? FontWeight.bold : null,

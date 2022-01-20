@@ -82,6 +82,7 @@ class _BuildForm extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
               onPressed: _addUdpdateNote,
@@ -96,6 +97,7 @@ class _BuildForm extends StatelessWidget {
                 controller: controller.titleController,
                 hint: "title".tr,
                 autoFocus: true,
+                textInputAction: TextInputAction.next,
               ),
               // const SizedBox(height: 10),
               BuildField(

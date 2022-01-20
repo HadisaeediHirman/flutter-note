@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_hive_note/core/utils/theme/theme.dart';
 
 class ActionButton extends StatelessWidget {
   const ActionButton({
@@ -23,7 +24,10 @@ class ActionButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           color: Colors.grey.shade600,
         ),
-        child: child,
+        child: Theme(
+          data: AppTheme.dark,
+          child: child,
+        ),
       ),
     );
   }

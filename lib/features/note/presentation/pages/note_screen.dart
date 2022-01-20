@@ -42,6 +42,9 @@ class NoteScreen extends GetView<NoteController> {
                           children: [
                             Text(
                               "${"delete".tr} - ${controller.selectedIds.length}",
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
                             ),
                             const SizedBox(width: 8),
                             const Icon(Icons.delete),

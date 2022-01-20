@@ -15,19 +15,24 @@ class SettingScreen extends GetView<SettingController> {
         title: "settings".tr,
       ),
       body: Center(
-        child: ElevatedButton(
-            onPressed: () {
-              controller.toggleTheme();
-            },
-            child: Text("Change")),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: controller.toggleTheme,
+              child: Text("Change"),
+            ),
+            ElevatedButton(
+              onPressed: controller.toggleLocale,
+              child: Text("Change Language"),
+            ),
+          ],
+        ),
       ),
       // body: Column(
-      //   children: SettingEntity.settings
-      //       .map(
-      //         (setting) => _SettingItem(
-      //           setting: setting,
-      //         ),
-      //       )
+      //   children: controller.settings
+      //       .map((item) =>
+      //           _SettingItem(title: item.keys.first, items: item.values.first))
       //       .toList(),
       // ),
     );
@@ -35,8 +40,13 @@ class SettingScreen extends GetView<SettingController> {
 }
 
 // class _SettingItem extends StatelessWidget {
-//   const _SettingItem({Key? key, required this.setting}) : super(key: key);
-//   final SettingEntity setting;
+//   const _SettingItem({
+//     Key? key,
+//     required this.title,
+//     required this.items,
+//   }) : super(key: key);
+//   final String title;
+//   final List<String> items;
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -49,7 +59,7 @@ class SettingScreen extends GetView<SettingController> {
 //       ),
 //       child: ExpansionTile(
 //         title: Text(
-//           setting.title,
+//           title,
 //           style: const TextStyle(
 //             fontSize: 20,
 //           ),

@@ -1,72 +1,55 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:simple_hive_note/core/utils/snackbar.dart';
-import 'package:simple_hive_note/features/setting/domain/usecases/change_language_usecase.dart';
-import 'package:simple_hive_note/features/setting/domain/usecases/change_theme_usecase.dart';
-import 'package:simple_hive_note/features/setting/domain/usecases/get_language_usecase.dart';
-import 'package:simple_hive_note/features/setting/domain/usecases/get_theme_usecase.dart';
+
+import '../../../../core/data/local_storage_provider.dart';
+import '../../../../core/utils/constants.dart';
+import '../../../../core/utils/strings.dart';
 
 class SettingController extends GetxController {
-  final GetThemeUsecase _getThemeUsecase;
-  final GetLanguageUsecase _getLanguageUsecase;
-  final ChangeThemeUsecase _changeThemeUsecase;
-  final ChangeLanguageUsecase _changeLanguageUsecase;
+  late bool isDarkMode;
+  late String currentLocale;
 
-  SettingController(
-    this._getThemeUsecase,
-    this._getLanguageUsecase,
-    this._changeThemeUsecase,
-    this._changeLanguageUsecase,
-  );
+  ThemeMode get themeMode =>
+      _getIsDarkMode() ? ThemeMode.dark : ThemeMode.light;
 
-  RxBool isDark = true.obs;
-  RxString language = "us".obs;
+  Locale get locale => _getLocale() == "fa" ? fa : us;
 
   @override
-  onInit() {
+  void onInit() {
+    isDarkMode = _getIsDarkMode();
+    currentLocale = _getLocale();
     super.onInit();
-    getTheme();
-    getLanguage();
-  }
-
-  getTheme() {
-    final failOrSuccess = _getThemeUsecase();
-
-    failOrSuccess.fold(
-      (error) => AppSnackbar.showSnackbar(error.message ?? ""),
-      (theme) {
-        isDark.value = theme;
-      },
-    );
-  }
-
-  getLanguage() {
-    final failOrSuccess = _getLanguageUsecase();
-
-    failOrSuccess.fold(
-      (error) => AppSnackbar.showSnackbar(error.message ?? ""),
-      (lang) {
-        language.value = lang;
-      },
-    );
   }
 
   void toggleTheme() {
-    isDark.value = !isDark.value;
-    print("dark = ${isDark.value}");
-    changeTheme();
+    _changeTheme(!isDarkMode);
+    final mode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    Get.changeThemeMode(mode);
   }
 
-  changeTheme() {
-    final failOrSuccess = _changeThemeUsecase(isDark.value);
+  void toggleLocale() {
+    _changeLocale(currentLocale == "fa" ? "us" : "fa");
+    final locale = currentLocale == "fa" ? fa : us;
+    Get.updateLocale(locale);
+  }
 
-    failOrSuccess.fold(
-      (error) => AppSnackbar.showSnackbar(error.message ?? ""),
-      (_) {
-        print("injas");
-        Get.changeThemeMode(isDark.value ? ThemeMode.dark : ThemeMode.light);
-      },
-    );
+  void _changeTheme(bool value) async {
+    isDarkMode = value;
+    await LocalStorageProvider().write(AppStrings.isDark, value);
+    print("isDarkMode = $isDarkMode");
+  }
+
+  void _changeLocale(String value) async {
+    currentLocale = value;
+    await LocalStorageProvider().write(AppStrings.locale, value);
+    print("locale = $currentLocale");
+  }
+
+  bool _getIsDarkMode() {
+    return LocalStorageProvider().read(AppStrings.isDark) ?? Get.isDarkMode;
+  }
+
+  String _getLocale() {
+    return LocalStorageProvider().read(AppStrings.locale) ?? "fa";
   }
 }
