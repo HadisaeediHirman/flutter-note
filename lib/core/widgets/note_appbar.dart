@@ -51,10 +51,12 @@ class NoteAppbar extends StatelessWidget with PreferredSizeWidget {
                   : const Spacer(),
               if (actions != null) ...{
                 ...actions!
-                    .map(
-                      (e) => Padding(
-                        padding: const EdgeInsets.only(right: AppSpacings.l),
-                        child: e,
+                    .mapIndexed(
+                      (action, i) => Padding(
+                        padding: (i == actions!.length - 1)
+                            ? EdgeInsets.zero
+                            : const EdgeInsets.only(right: AppSpacings.l),
+                        child: action,
                       ),
                     )
                     .toList(),

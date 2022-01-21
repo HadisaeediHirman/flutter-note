@@ -46,10 +46,18 @@ class SettingController extends GetxController {
   }
 
   bool _getIsDarkMode() {
-    return LocalStorageProvider().read(AppStrings.isDark) ?? Get.isDarkMode;
+    try {
+      return LocalStorageProvider().read(AppStrings.isDark);
+    } catch (e) {
+      return Get.isDarkMode;
+    }
   }
 
   String _getLocale() {
-    return LocalStorageProvider().read(AppStrings.locale) ?? "fa";
+    try {
+      return LocalStorageProvider().read(AppStrings.locale);
+    } catch (e) {
+      return "fa";
+    }
   }
 }

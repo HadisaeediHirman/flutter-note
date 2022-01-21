@@ -1,14 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:simple_hive_note/core/routes/app_routes.dart';
-import 'package:simple_hive_note/features/note/presentation/widgets/add_update/colors_bar.dart';
-import '../../domain/entities/note_entity.dart';
-import '../widgets/add_update/input_field.dart';
 
-import '../../../../core/utils/utils.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../controllers/note_controller.dart';
+import '../../../../../core/utils/utils.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../../domain/entities/note_entity.dart';
+import '../../controllers/note_controller.dart';
+import '../../widgets/add_update/colors_bar.dart';
+import '../../widgets/add_update/input_field.dart';
 
 class AddUpdateNoteScreen extends StatefulWidget {
   const AddUpdateNoteScreen({Key? key}) : super(key: key);

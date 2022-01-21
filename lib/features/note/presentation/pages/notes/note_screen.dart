@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:simple_hive_note/core/routes/app_routes.dart';
 
-import '../../../../core/data/database_provider.dart';
-import '../../../../core/utils/utils.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../controllers/note_controller.dart';
-import '../widgets/note_card.dart';
+import '../../../../../core/data/database_provider.dart';
+import '../../../../../core/utils/utils.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../controllers/note_controller.dart';
+import '../../widgets/note_card.dart';
 
 class NoteScreen extends GetView<NoteController> {
   const NoteScreen({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class NoteScreen extends GetView<NoteController> {
             builder: (controller) => controller.selectedIds.isEmpty
                 ? ActionButton(
                     onPressed: () {
-                      Get.toNamed(AppRoutes.setting);
+                      Get.toNamed(AppRoutes.note + AppRoutes.setting);
                     },
                     child: const Icon(Icons.settings),
                   )

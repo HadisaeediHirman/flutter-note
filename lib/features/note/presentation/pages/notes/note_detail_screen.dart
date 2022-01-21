@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:simple_hive_note/core/routes/app_routes.dart';
 import 'package:simple_hive_note/features/note/domain/entities/note_entity.dart';
 
-import '../../../../core/utils/utils.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../controllers/note_controller.dart';
+import '../../../../../core/utils/utils.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../controllers/note_controller.dart';
 
 class NoteDetailScreen extends StatelessWidget {
   const NoteDetailScreen({Key? key}) : super(key: key);

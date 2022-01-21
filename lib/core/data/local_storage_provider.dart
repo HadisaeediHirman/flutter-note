@@ -34,32 +34,18 @@ class LocalStorageProvider implements LocalStorageRepository {
   @override
   T? read<T>(String key, {T Function(Map)? construct}) {
     try {
-      final value = storage.read(key);
-      print(value);
-      // return convert.jsonDecode(value) ?? defaultValue.toString();
-      return value;
+      String? value = storage.read(key);
+
+      if (value == null) {
+        throw NoteAppException.noRecords();
+      }
+
+      if (construct == null) return convert.jsonDecode(value);
+      Map<String, dynamic> json = convert.jsonDecode(value);
+      return construct(json);
     } catch (e) {
-      print(e);
       rethrow;
     }
-
-    // try {
-    //   String? value = storage.read(key);
-
-    //   print("value = $value");
-
-    //   if (value == null) {
-    //     throw NoteAppException.noRecords();
-    //   }
-
-    //   if (construct == null) return convert.jsonDecode(value);
-    //   Map<String, dynamic> json = convert.jsonDecode(value);
-    //   return construct(json);
-    //   // return value;
-    // } catch (e) {
-    //   print(e);
-    //   rethrow;
-    // }
   }
 
   @override

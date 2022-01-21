@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:simple_hive_note/features/setting/presentation/controllers/setting_controller.dart';
+import 'package:simple_hive_note/features/note/presentation/controllers/setting_controller.dart';
 
-import '../../../../core/utils/utils.dart';
-import '../../../../core/widgets/widgets.dart';
+import '../../../../../core/utils/utils.dart';
+import '../../../../../core/widgets/widgets.dart';
 
 class SettingScreen extends GetView<SettingController> {
   @override

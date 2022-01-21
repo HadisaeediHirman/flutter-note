@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'core/routes/app_pages.dart';
 import 'core/utils/utils.dart';
-import 'features/setting/presentation/controllers/setting_controller.dart';
+import 'features/note/presentation/controllers/setting_controller.dart';
 
 class App extends StatelessWidget {
   App({Key? key}) : super(key: key);
