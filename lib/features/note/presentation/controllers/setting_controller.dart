@@ -6,41 +6,44 @@ import '../../../../core/utils/constants.dart';
 import '../../../../core/utils/strings.dart';
 
 class SettingController extends GetxController {
-  late bool isDarkMode;
-  late String currentLocale;
+  late RxBool isDarkMode = true.obs;
+  late RxString currentLocale = "".obs;
 
   ThemeMode get themeMode =>
       _getIsDarkMode() ? ThemeMode.dark : ThemeMode.light;
 
   Locale get locale => _getLocale() == "fa" ? fa : us;
 
+  final settings = ["change_theme".tr, "change_language".tr];
+
   @override
   void onInit() {
-    isDarkMode = _getIsDarkMode();
-    currentLocale = _getLocale();
+    isDarkMode.value = _getIsDarkMode();
+    currentLocale.value = _getLocale();
     super.onInit();
   }
 
   void toggleTheme() {
-    _changeTheme(!isDarkMode);
-    final mode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    changeTheme(!isDarkMode.value);
+    final mode = isDarkMode.value ? ThemeMode.dark : ThemeMode.light;
     Get.changeThemeMode(mode);
   }
 
   void toggleLocale() {
-    _changeLocale(currentLocale == "fa" ? "us" : "fa");
-    final locale = currentLocale == "fa" ? fa : us;
+    changeLocale(currentLocale.value == "fa" ? "us" : "fa");
+    final locale = currentLocale.value == "fa" ? fa : us;
     Get.updateLocale(locale);
   }
 
-  void _changeTheme(bool value) async {
-    isDarkMode = value;
+  void changeTheme(bool value) async {
+    isDarkMode.value = value;
     await LocalStorageProvider().write(AppStrings.isDark, value);
+    Get.changeThemeMode(themeMode);
     print("isDarkMode = $isDarkMode");
   }
 
-  void _changeLocale(String value) async {
-    currentLocale = value;
+  void changeLocale(String value) async {
+    currentLocale.value = value;
     await LocalStorageProvider().write(AppStrings.locale, value);
     print("locale = $currentLocale");
   }

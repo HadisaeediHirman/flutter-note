@@ -8,98 +8,104 @@ import '../../../../../core/utils/utils.dart';
 import '../../../../../core/widgets/widgets.dart';
 
 class SettingScreen extends GetView<SettingController> {
+  const SettingScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NoteAppbar(
         title: "settings".tr,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: controller.toggleTheme,
-              child: Text("Change"),
+      body: Column(
+        children: [
+          ListTile(
+            title: Text(
+              "change_theme".tr,
+              style: TextStyle(
+                fontSize: 20,
+              ),
             ),
-            ElevatedButton(
-              onPressed: controller.toggleLocale,
-              child: Text("Change Language"),
+            leading: Icon(Icons.dark_mode_rounded),
+            minLeadingWidth: 20,
+            onTap: () => controller.toggleTheme(),
+            trailing: Obx(
+              () => Text(
+                controller.isDarkMode.value
+                    ? "theme_dark".tr
+                    : "theme_light".tr,
+              ),
             ),
-          ],
-        ),
+          ),
+          ListTile(
+            title: Text(
+              "change_language".tr,
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            leading: Icon(Icons.language),
+            minLeadingWidth: 20,
+            onTap: () => controller.toggleLocale(),
+            trailing: Obx(
+              () => Text(
+                controller.currentLocale.value == "fa"
+                    ? "persian".tr
+                    : "english".tr,
+              ),
+            ),
+          ),
+        ],
       ),
-      // body: Column(
-      //   children: controller.settings
-      //       .map((item) =>
-      //           _SettingItem(title: item.keys.first, items: item.values.first))
-      //       .toList(),
-      // ),
     );
   }
 }
 
-// class _SettingItem extends StatelessWidget {
-//   const _SettingItem({
-//     Key? key,
-//     required this.title,
-//     required this.items,
-//   }) : super(key: key);
-//   final String title;
-//   final List<String> items;
+class _SettingItem extends StatelessWidget {
+  const _SettingItem({
+    Key? key,
+    required this.title,
+    required this.children,
+  }) : super(key: key);
+  final String title;
+  final List<Widget> children;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       clipBehavior: Clip.antiAlias,
-//       margin: EdgeInsets.all(AppSpacings.xl),
-//       decoration: BoxDecoration(
-//         // color: Colors.red,
-//         borderRadius: BorderRadius.circular(AppSpacings.l),
-//       ),
-//       child: ExpansionTile(
-//         title: Text(
-//           title,
-//           style: const TextStyle(
-//             fontSize: 20,
-//           ),
-//         ),
-//         trailing: Text(setting.value),
-//         children: [
-//           Container(
-//             padding: const EdgeInsets.all(AppSpacings.xl),
-//             child: Row(
-//               children: [
-//                 Icon(setting.icon),
-//                 const SizedBox(width: AppSpacings.m),
-//                 Text(
-//                   setting.title,
-//                   style: const TextStyle(
-//                     fontSize: 20,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//     //   return InkWell(
-//     //     child: Container(
-//     //       padding: const EdgeInsets.all(AppSpacings.xl),
-//     //       child: Row(
-//     //         children: [
-//     //           Icon(setting.icon),
-//     //           const SizedBox(width: AppSpacings.m),
-//     //           Text(
-//     //             setting.title,
-//     //             style: const TextStyle(
-//     //               fontSize: 20,
-//     //             ),
-//     //           ),
-//     //         ],
-//     //       ),
-//     //     ),
-//     //   );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      // margin: EdgeInsets.all(AppSpacings.xl),
+      decoration: BoxDecoration(
+        // color: Colors.red,
+        borderRadius: BorderRadius.circular(AppSpacings.l),
+      ),
+      child: ExpansionTile(
+        childrenPadding: EdgeInsets.zero,
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+          ),
+        ),
+        trailing: SizedBox.shrink(),
+        children: children,
+      ),
+    );
+    //   return InkWell(
+    //     child: Container(
+    //       padding: const EdgeInsets.all(AppSpacings.xl),
+    //       child: Row(
+    //         children: [
+    //           Icon(setting.icon),
+    //           const SizedBox(width: AppSpacings.m),
+    //           Text(
+    //             setting.title,
+    //             style: const TextStyle(
+    //               fontSize: 20,
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   );
+  }
+}
