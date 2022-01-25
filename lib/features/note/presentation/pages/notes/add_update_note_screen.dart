@@ -32,7 +32,7 @@ class _AddUpdateNoteScreenState extends State<AddUpdateNoteScreen> {
 
     controller.selectedColor.value =
         note?.color ?? colors.randomElement as Color;
-    controller.todos.value = [];
+    controller.todos.value = note?.todos ?? [];
   }
 
   @override

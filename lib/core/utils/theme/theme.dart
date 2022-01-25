@@ -10,6 +10,12 @@ class AppTheme {
       secondary: AppColors.secondary,
     ),
     brightness: Brightness.dark,
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.all(AppColors.primary),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(40),
+      ),
+    ),
   );
 
   static ThemeData light = ThemeData.light().copyWith(
@@ -19,5 +25,11 @@ class AppTheme {
       secondary: AppColors.secondary,
     ),
     brightness: Brightness.light,
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.all(AppColors.primary),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(40),
+      ),
+    ),
   );
 }

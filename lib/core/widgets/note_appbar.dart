@@ -55,7 +55,8 @@ class NoteAppbar extends StatelessWidget with PreferredSizeWidget {
                       (action, i) => Padding(
                         padding: (i == actions!.length - 1)
                             ? EdgeInsets.zero
-                            : const EdgeInsets.only(right: AppSpacings.l),
+                            : const EdgeInsets.symmetric(
+                                horizontal: AppSpacings.l),
                         child: action,
                       ),
                     )

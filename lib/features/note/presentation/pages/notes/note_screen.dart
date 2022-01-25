@@ -61,7 +61,7 @@ class NoteScreen extends GetView<NoteController> {
           ),
         ],
       ),
-      floatingActionButton: FadeInLeft(
+      floatingActionButton: FadeInUp(
         child: FloatingActionButton(
           onPressed: () {
             Get.toNamed(AppRoutes.addUpdate);

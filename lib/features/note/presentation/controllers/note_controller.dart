@@ -51,21 +51,19 @@ class NoteController extends GetxController {
 
   void setNoteError(String error) {
     this.error = error;
-    update(['note_list']);
+    // update(['note_list', 'note_detail']);
   }
 
   bool isErrorNotEmpty() => error != null;
 
   fetchNote(String noteId) async {
     final failOrSuccess = await _getNoteUsecase(noteId);
-    NoteEntity? tempNote;
 
     failOrSuccess.fold(
-      (e) {
-        print(e.message);
-      },
+      (error) => setNoteError(error.message!),
       (note) {
         this.note = note;
+        error = null;
       },
     );
     update(['note_detail']);

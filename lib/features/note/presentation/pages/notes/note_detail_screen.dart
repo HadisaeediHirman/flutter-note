@@ -35,9 +35,9 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
       id: "note_detail",
       builder: (controller) {
         return controller.note == null
-            ? const Scaffold(
-                appBar: NoteAppbar(),
-                body: ErrorText(message: "Failed"),
+            ? Scaffold(
+                appBar: const NoteAppbar(),
+                body: ErrorText(message: controller.error ?? ""),
               )
             : Scaffold(
                 backgroundColor: controller.note!.color ?? colors.randomElement,
