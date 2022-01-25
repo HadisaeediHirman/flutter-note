@@ -24,6 +24,7 @@ class BuildField extends StatelessWidget {
       controller: controller,
       autofocus: autoFocus,
       maxLines: maxLines,
+      minLines: 1,
       textInputAction: textInputAction,
       style: TextStyle(
         fontSize: fonSize,

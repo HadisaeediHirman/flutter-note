@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:simple_hive_note/features/note/domain/usecases/get_note_usecase.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/snackbar.dart';
@@ -9,13 +11,16 @@ import '../../domain/usecases/add_update_note_usecase.dart';
 import '../../domain/usecases/delete_multiple_notes_usecase.dart';
 import '../../domain/usecases/delete_note_usecase.dart';
 import '../../domain/usecases/get_all_note_usecase.dart';
+import '../../domain/entities/todo_entity.dart';
 
 class NoteController extends GetxController {
+  final GetNoteUsecase _getNoteUsecase;
   final GetAllNotesUsecase _getAllNotesUsecase;
   final AddUpdateNoteUsecase _addUpdateNoteUsecase;
   final DeleteNoteUsecase _deleteNoteUsecase;
   final DeleteMultipleNoteUsecase _deleteMultipleNoteUsecase;
   NoteController(
+    this._getNoteUsecase,
     this._getAllNotesUsecase,
     this._addUpdateNoteUsecase,
     this._deleteNoteUsecase,
@@ -23,13 +28,16 @@ class NoteController extends GetxController {
   );
 
   List<NoteEntity> notes = <NoteEntity>[];
-  // RxString errorMessage = "".obs;
+  NoteEntity? note;
+  String? error;
 
   List<String> selectedIds = <String>[];
+
   late TextEditingController titleController;
   late TextEditingController descriptionController;
 
   RxBool isLoading = false.obs;
+  RxList<TodoEntity> todos = <TodoEntity>[].obs;
   Rx<Color> selectedColor = (colors.randomElement as Color).obs;
 
   @override
@@ -41,20 +49,43 @@ class NoteController extends GetxController {
 
   void setSelectedColor(Color value) => selectedColor.value = value;
 
+  void setNoteError(String error) {
+    this.error = error;
+    update(['note_list']);
+  }
+
+  bool isErrorNotEmpty() => error != null;
+
+  fetchNote(String noteId) async {
+    final failOrSuccess = await _getNoteUsecase(noteId);
+    NoteEntity? tempNote;
+
+    failOrSuccess.fold(
+      (e) {
+        print(e.message);
+      },
+      (note) {
+        this.note = note;
+      },
+    );
+    update(['note_detail']);
+  }
+
   fetchAllNotes() async {
     final failOrSuccess = await _getAllNotesUsecase();
 
     failOrSuccess.fold(
-      (error) => {},
+      (error) => setNoteError(error.message!),
       (noteEntities) {
         notes.clear();
         notes.addAll(noteEntities);
+        error = null;
       },
     );
     update(['note_list']);
   }
 
-  addUpdateNote(NoteEntity note) async {
+  addUpdateNote(NoteEntity note, {bool pop = true}) async {
     final bool _isEdit = note.id != null;
     final failOrSuccess = await _addUpdateNoteUsecase(note);
 
@@ -65,7 +96,6 @@ class NoteController extends GetxController {
     failOrSuccess.fold(
       (error) {
         AppSnackbar.showSnackbar(error.message ?? "", isError: true);
-        print(error.message);
       },
       (_) {
         if (_isEdit) {
@@ -73,7 +103,9 @@ class NoteController extends GetxController {
         } else {
           AppSnackbar.showSnackbar("note_added".tr);
         }
-        Get.offAndToNamed(AppRoutes.note);
+        if (pop) {
+          Get.offAndToNamed(AppRoutes.note);
+        }
       },
     );
 
@@ -100,7 +132,7 @@ class NoteController extends GetxController {
     final failOrSuccess = await _deleteMultipleNoteUsecase(selectedIds);
 
     failOrSuccess.fold(
-      (error) => print(error.message),
+      (error) => AppSnackbar.showSnackbar(error.message ?? "", isError: true),
       (_) {
         AppSnackbar.showSnackbar("${selectedIds.length} ${"delete_msg".tr}");
         selectedIds.clear();
@@ -113,11 +145,51 @@ class NoteController extends GetxController {
     final failOrSuccess = await _deleteNoteUsecase(noteId);
 
     failOrSuccess.fold(
-      (error) => print(error.message),
+      (error) => AppSnackbar.showSnackbar(error.message ?? "", isError: true),
       (_) {
         AppSnackbar.showSnackbar("1 ${"delete_msg".tr}");
         update(['note_list']);
       },
     );
+  }
+
+  addEmptyTodo() {
+    todos.add(TodoEntity.empty());
+  }
+
+  removeTodo(TodoEntity todo) {
+    todos.remove(todo);
+  }
+
+  todoValueChanged(String value, String id) {
+    final updateTodoList = todos.map((todo) {
+      if (todo.id == id) {
+        return todo.copyWith(title: value);
+      }
+      return todo;
+    }).toList();
+
+    todos.value = updateTodoList;
+  }
+
+  toggleTodoIsCompleted(String todoId) async {
+    final updatedNote = note!.copyWith(
+      todos: note!.todos.map((todo) {
+        if (todo.id == todoId) {
+          return todo.copyWith(isCompleted: !todo.isCompleted);
+        }
+        return todo;
+      }).toList(),
+    );
+
+    final failOrSuccess = await _addUpdateNoteUsecase(updatedNote);
+
+    failOrSuccess.fold(
+      (error) => AppSnackbar.showSnackbar(error.message ?? ""),
+      (_) {
+        note = updatedNote;
+      },
+    );
+    update(['note_detail']);
   }
 }

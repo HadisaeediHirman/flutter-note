@@ -77,20 +77,23 @@ class NoteScreen extends GetView<NoteController> {
         },
         child: GetBuilder<NoteController>(
           id: "note_list",
-          builder: (controller) => _BuildNotesList(controller: controller),
+          // builder: (controller) => _BuildNotesList(controller: controller),
+          builder: (controller) => controller.isErrorNotEmpty()
+              ? ErrorText(message: controller.error ?? "")
+              : _BuildNotesList(controller: controller),
         ),
       ),
     );
   }
 }
-// TODO: Add setting page => change theme, change language
-// TODO: Add Detail Screen => Edit Note
+// TODO: Add setting page => change theme, change language ---- Done
+// TODO: Add Detail Screen => Edit Note --- Done
 // TODO: Add Cancel Delete Button ----- Done
 // TODO: Add Todo
 // TODO: Add Remember me => Notification
-// TODO: Add Choose Color => Color Pallete
-// TODO: Add Error Handling With dartz
-// TODO: This is for end of application - Change to Clean architect.
+// TODO: Add Choose Color => Color Pallete ----- Done
+// TODO: Add Error Handling With dartz --- Done
+// TODO: This is for end of application - Change to Clean architect. --- Done
 
 class _BuildNotesList extends StatelessWidget {
   const _BuildNotesList({Key? key, required this.controller}) : super(key: key);
@@ -117,7 +120,7 @@ class _BuildNotesList extends StatelessWidget {
                 onSelect: () => controller.toggleSelect(note.id!),
                 onTap: () {
                   if (controller.selectedIds.isEmpty) {
-                    Get.toNamed(AppRoutes.noteDetail, arguments: note);
+                    Get.toNamed(AppRoutes.noteDetail, arguments: note.id);
                   } else {
                     controller.toggleSelect(note.id!);
                   }

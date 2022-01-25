@@ -6,8 +6,10 @@ import '../../../../../core/utils/utils.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../domain/entities/note_entity.dart';
 import '../../controllers/note_controller.dart';
+import '../../widgets/add_update/add_todo.dart';
 import '../../widgets/add_update/colors_bar.dart';
 import '../../widgets/add_update/input_field.dart';
+import '../../../domain/entities/todo_entity.dart';
 
 class AddUpdateNoteScreen extends StatefulWidget {
   const AddUpdateNoteScreen({Key? key}) : super(key: key);
@@ -30,6 +32,7 @@ class _AddUpdateNoteScreenState extends State<AddUpdateNoteScreen> {
 
     controller.selectedColor.value =
         note?.color ?? colors.randomElement as Color;
+    controller.todos.value = [];
   }
 
   @override
@@ -55,7 +58,7 @@ class _AddUpdateNoteScreenState extends State<AddUpdateNoteScreen> {
 }
 
 class _BuildForm extends StatelessWidget {
-  const _BuildForm({
+  _BuildForm({
     Key? key,
     required this.controller,
     required this.note,
@@ -63,6 +66,7 @@ class _BuildForm extends StatelessWidget {
 
   final NoteController controller;
   final NoteEntity? note;
+  List<TodoEntity> todos = [];
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +101,10 @@ class _BuildForm extends StatelessWidget {
                 hint: "title".tr,
                 autoFocus: true,
                 textInputAction: TextInputAction.next,
+                maxLines: 2,
               ),
               // const SizedBox(height: 10),
+              BuildAddTodoList(controller: controller),
               BuildField(
                 controller: controller.descriptionController,
                 hint: "type_something".tr,
@@ -119,7 +125,7 @@ class _BuildForm extends StatelessWidget {
       description: controller.descriptionController.text,
       dateTime: DateTime.now(),
       color: controller.selectedColor.value,
-      todos: [],
+      todos: controller.todos.value,
     );
 
     controller.addUpdateNote(noteEntity);

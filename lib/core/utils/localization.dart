@@ -30,12 +30,15 @@ class Localization extends Translations {
           "theme_dark": "Dark",
           "persian": "Persian",
           "english": "English",
+          "add_todo": "Add Todo",
+          "todo..": "Todo..",
+          "todo_title": "TODO's",
         },
         'fa_IR': {
           'note': "یادداشت",
           'notes': "یادداشت ها",
           'title': 'عنوان',
-          'type_something': 'چیزی بنویس ...',
+          'type_something': 'چیزی بنویسید ...',
           'save': 'ذخیره',
           'delete': 'حذف',
           "saving": "در حال ذخیره ...",
@@ -60,6 +63,9 @@ class Localization extends Translations {
           "theme_dark": "تاریک",
           "persian": "فارسی",
           "english": "انگلیسی",
+          "add_todo": "افزودن کار",
+          "todo..": "کار..",
+          "todo_title": "کار ها",
         },
       };
 }
