@@ -89,7 +89,7 @@ class NoteScreen extends GetView<NoteController> {
 // TODO: Add setting page => change theme, change language ---- Done
 // TODO: Add Detail Screen => Edit Note --- Done
 // TODO: Add Cancel Delete Button ----- Done
-// TODO: Add Todo
+// TODO: Add Todo --- Done
 // TODO: Add Remember me => Notification
 // TODO: Add Choose Color => Color Pallete ----- Done
 // TODO: Add Error Handling With dartz --- Done
