@@ -1,8 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_hive_note/core/utils/utils.dart';
 
-import '../../../../core/utils/utils.dart';
-import '../../domain/entities/note_entity.dart';
+import '../../../../../core/utils/utils.dart';
+import '../../../domain/entities/note_entity.dart';
 
 class NoteCard extends StatelessWidget {
   const NoteCard({

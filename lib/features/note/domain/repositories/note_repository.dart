@@ -1,3 +1,5 @@
+import 'package:simple_hive_note/features/note/domain/entities/note_entity.dart';
+
 import '../../data/models/note.dart';
 
 abstract class NoteRepository {

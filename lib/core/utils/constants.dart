@@ -10,7 +10,7 @@ const List<Color> colors = [
   Color(0xff9E5C32),
 ];
 
-const String databaseBox = "note_box";
 const fa = Locale("fa", "IR");
 const us = Locale("en", "US");
 const animationDuration = Duration(milliseconds: 400);
+const pageTransitionDuration = Duration(milliseconds: 700);

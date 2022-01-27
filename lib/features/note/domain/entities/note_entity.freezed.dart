@@ -18,14 +18,13 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$NoteEntityTearOff {
   const _$NoteEntityTearOff();
 
-  _NoteEntity call({
-    String? id,
-    String? title,
-    String? description,
-    Color? color,
-    DateTime? dateTime,
-    List<TodoEntity> todos = const [],
-  }) {
+  _NoteEntity call(
+      {String? id,
+      String? title,
+      String? description,
+      Color? color,
+      DateTime? dateTime,
+      List<TodoEntity> todos = const []}) {
     return _NoteEntity(
       id: id,
       title: title,

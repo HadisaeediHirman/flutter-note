@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_hive_note/core/utils/theme/theme.dart';
 
 class ActionButton extends StatelessWidget {
   const ActionButton({
@@ -12,18 +13,19 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: GestureDetector(
-        onTap: onPressed,
-        child: Container(
-          height: 40,
-          constraints: const BoxConstraints(minWidth: 40),
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.grey.shade600,
-          ),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: 40,
+        constraints: const BoxConstraints(minWidth: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.grey.shade600,
+        ),
+        child: Theme(
+          data: AppTheme.dark,
           child: child,
         ),
       ),

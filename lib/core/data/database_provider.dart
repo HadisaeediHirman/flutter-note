@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:simple_hive_note/core/exceptions/exception.dart';
-import 'package:simple_hive_note/core/utils/constants.dart';
+import 'package:simple_hive_note/core/utils/strings.dart';
 
 abstract class DatabaseRepository {
   Box get box;
@@ -14,9 +14,6 @@ abstract class DatabaseRepository {
 class DatabaseProvider implements DatabaseRepository {
   DatabaseProvider._internal();
 
-  @override
-  Box get box => Hive.box(databaseBox);
-
   static final DatabaseProvider _singleton = DatabaseProvider._internal();
 
   factory DatabaseProvider() {
@@ -24,9 +21,30 @@ class DatabaseProvider implements DatabaseRepository {
   }
 
   @override
-  Future addUpdate<T>(String id, T item) async {
+  Box get box => Hive.box(AppStrings.databaseBox);
+
+  @override
+  T get<T>(String id) {
     try {
-      await box.put(id, item);
+      final data = box.get(id);
+      if (data == null) {
+        throw NoteAppException.noRecords();
+      }
+      return data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  List<T> getAll<T>() {
+    // box.clear();
+    try {
+      final data = box.toMap().values;
+      if (data.isEmpty) {
+        throw NoteAppException.noRecords();
+      }
+      return data.toList().cast<T>();
     } catch (e) {
       rethrow;
     }
@@ -51,26 +69,9 @@ class DatabaseProvider implements DatabaseRepository {
   }
 
   @override
-  List<T> getAll<T>() {
+  Future addUpdate<T>(String id, T item) async {
     try {
-      final data = box.toMap().values;
-      if (data.isEmpty) {
-        throw NoteAppException.noRecords();
-      }
-      return data.toList().cast<T>();
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  T get<T>(String id) {
-    try {
-      final data = box.get(id);
-      if (data == null) {
-        throw NoteAppException.noRecords();
-      }
-      return data;
+      await box.put(id, item);
     } catch (e) {
       rethrow;
     }
