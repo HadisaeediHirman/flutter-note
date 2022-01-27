@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_hive_note/core/utils/theme/theme.dart';
+import 'package:simple_hive_note/core/utils/theme/app_theme.dart';
 
 class ActionButton extends StatelessWidget {
   const ActionButton({

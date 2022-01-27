@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_hive_note/core/routes/app_routes.dart';
 import 'package:simple_hive_note/features/note/domain/entities/note_entity.dart';
+import 'package:simple_hive_note/features/note/presentation/controllers/setting_controller.dart';
 
 import '../../../../../core/utils/utils.dart';
 import '../../../../../core/widgets/widgets.dart';
@@ -31,6 +32,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final settingController = Get.find<SettingController>();
     return GetBuilder<NoteController>(
       id: "note_detail",
       builder: (controller) {
@@ -74,7 +76,9 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
                         ),
                         const SizedBox(height: AppSpacings.l),
                         SelectableText(
-                          controller.note!.dateWithTime,
+                          settingController.currentLocale.value == "fa"
+                              ? controller.note!.dateTime!.jalaliDateWithTime
+                              : controller.note!.dateWithTime,
                           style: AppTextStyle.date,
                         ),
                         const SizedBox(height: AppSpacings.xxl),

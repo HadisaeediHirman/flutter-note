@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:simple_hive_note/core/utils/utils.dart';
+import 'package:simple_hive_note/features/note/presentation/controllers/setting_controller.dart';
 
 import '../../../../../core/utils/utils.dart';
 import '../../../domain/entities/note_entity.dart';
@@ -21,6 +23,7 @@ class NoteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingController = Get.find<SettingController>();
     return Material(
       clipBehavior: Clip.antiAlias,
       borderRadius: BorderRadius.circular(AppSpacings.m),
@@ -58,7 +61,9 @@ class NoteCard extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacings.m),
                   Text(
-                    note.date,
+                    settingController.currentLocale.value == "fa"
+                        ? note.dateTime!.jalaliDate
+                        : note.date,
                     style: AppTextStyle.date,
                   ),
                 ],

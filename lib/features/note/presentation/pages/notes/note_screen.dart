@@ -9,7 +9,7 @@ import '../../../../../core/data/database_provider.dart';
 import '../../../../../core/utils/utils.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../controllers/note_controller.dart';
-import '../../widgets/note_card.dart';
+import '../../widgets/note_screen/note_card.dart';
 
 class NoteScreen extends GetView<NoteController> {
   const NoteScreen({Key? key}) : super(key: key);
@@ -86,14 +86,6 @@ class NoteScreen extends GetView<NoteController> {
     );
   }
 }
-// TODO: Add setting page => change theme, change language ---- Done
-// TODO: Add Detail Screen => Edit Note --- Done
-// TODO: Add Cancel Delete Button ----- Done
-// TODO: Add Todo --- Done
-// TODO: Add Remember me => Notification
-// TODO: Add Choose Color => Color Pallete ----- Done
-// TODO: Add Error Handling With dartz --- Done
-// TODO: This is for end of application - Change to Clean architect. --- Done
 
 class _BuildNotesList extends StatelessWidget {
   const _BuildNotesList({Key? key, required this.controller}) : super(key: key);
